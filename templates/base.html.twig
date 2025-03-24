@@ -30,23 +30,24 @@
     $(document).ready(function () {
         {% for message in app.flashes('success') %}
             $.toast({
-                heading: 'Success',
-                text: '{{message}}',
+                heading: 'Success!',
+                text: "{{ message }}",
                 icon: 'success',
-                loader: true, // Change it to false to disable loader
-                loaderBg: '#9EC600', // To change the background
+                loader: true,
+                loaderBg: '#9EC600' ,
+                showHideTransition: 'fade',
                 position: 'top-right',
 
             })
         {% endfor %}
-
-        {% for message in app.flashes('errors') %}
+        {% for message in app.flashes('error') %}
             $.toast({
-                heading: 'Error',
-                text: '{{message}}',
-                icon: 'Error',
-                loader: true, // Change it to false to disable loader
-                loaderBg: '#FF0000', // To change the background
+                heading: 'Error!',
+                text: "{{ message }}",
+                icon: 'error',
+                loader: true,
+                loaderBg: '#ff0000' ,
+                showHideTransition: 'fade',
                 position: 'top-right',
 
             })

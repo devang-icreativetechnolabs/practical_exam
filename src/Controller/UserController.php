@@ -25,6 +25,21 @@ final class UserController extends AbstractController
 
         $query = $userRepository->createQueryBuilder('u');
 
+        $columns = [
+            'u.id',
+            'u.first_name',
+            'u.last_name',
+            'u.age',
+            'u.hobby',
+            'u.gender',
+            'u.email',
+            'u.roles',
+            'u.created_at',
+            'u.status',
+        ];
+        $requestData = $request->query->all();
+        $orderData = $requestData['order'][0] ?? [];
+        $query->orderBy($columns[$orderData['column']], $orderData['dir']);
         // Filters
         if ($request->query->get('role')) {
             $query->andWhere('u.roles = :role')
@@ -61,6 +76,7 @@ final class UserController extends AbstractController
         $data = [];
         // Return data as JSON
         foreach ($users as $key => $user) {
+            $status = $user->isStatus() ? "Active" : "Inactive";
             $data[] = [
                 'id' => $key + 1,
                 'first_name' => $user->getFirstName(),
@@ -69,13 +85,13 @@ final class UserController extends AbstractController
                 'age' => $user->getage(),
                 'hobby' => $user->getHobbyList(),
                 'gender' => $user->getGender()->name,
-                'status' => $user->isStatus() ? "Active" : "Inactive",
-                'createdAt' => $user->getCreatedAt()->format('Y-m-d H:i:s'),
+                'status' => '<span class="btn btn-sm btn-'. ($status === "Active"? "success" : "danger"). '">'. $status. '</span>',
+                'createdAt' => $user->getCreatedAt()->format('Y-m-d'),
                 'roles' => $user->getRoles()->name,
-                'actions' => '<a class="btn btn-primary" href=' . $this->generateUrl('app_user_show', ['id' => $user->getId()]) . '">Show</a> | <a class="btn btn-success" href="' . $this->generateUrl('app_user_edit', ['id' => $user->getId()]) . '">Edit</a> | 
+                'actions' => '<div class="d-flex gap-1"><a class="btn btn-sm btn-primary" href=' . $this->generateUrl('app_user_show', ['id' => $user->getId()]) . '">Show</a> <a class="btn btn-sm btn-success" href="' . $this->generateUrl('app_user_edit', ['id' => $user->getId()]) . '">Edit</a> 
                 <form method="post" action="' . $this->generateUrl('app_user_delete', ['id' => $user->getId()]) . '" onsubmit="return confirm(\'Are you sure you want to delete this item?\');">
-                <button class="btn btn-danger">Delete</button>
-                </form>
+                <button class="btn btn-sm btn-danger">Delete</button>
+                </form></div>
                 '
             ];
         }

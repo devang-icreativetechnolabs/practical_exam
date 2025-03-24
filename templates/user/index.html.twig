@@ -6,13 +6,12 @@
 {% block body %}
 	<div class="p-2">
 		<h1>User index</h1>
-		<div class="d-flex p-3 gap-2">
-			<strong>Filters</strong>
+		<div class="d-flex p-3 gap-2 border border-2 m-4">
 			<div class="col-md-3">
 				<div class="form-group">
 					<label for="userRole">Roles</label>
 					<select class="form-control" id="userRole" onchange="appyFilter()">
-						<option value="">Select a role</option>
+						<option value="">Select a Role</option>
 						<option value="1">Admin</option>
 						<option value="2">User</option>
 						<option value="3">Manager</option>
@@ -63,7 +62,7 @@
 					<th>Roles</th>
 					<th>Created On</th>
 					<th>Status</th>
-					<th>actions</th>
+					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody></tbody>
@@ -90,6 +89,7 @@
     $(document).ready(function () {
         $('#UserTable').DataTable({
             processing: true,
+            searching: false,
             serverSide: true,
             ajax: {
                 url: "/user/user-get-data",
