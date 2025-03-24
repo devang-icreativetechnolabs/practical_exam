@@ -115,7 +115,7 @@ class User
         foreach ($this->getHobby() as $hob) {
             $hobby .= $hobbied[$hob] . ',';
         }
-        return rtrim($hobby, ',');
+        return $this->getHobby() ? rtrim($hobby, ',') : 'N/A';
     }
 
     public function getGender(): Gender|null
@@ -128,15 +128,6 @@ class User
         $this->gender = $gender;
 
         return $this;
-    }
-    public function getGenderList(): string
-    {
-        $gender = [
-            1 => 'Male',
-            2 => 'Female',
-            3 => 'Others',
-        ];
-        return $gender[$this->getGender()];
     }
 
     public function getEmail(): ?string

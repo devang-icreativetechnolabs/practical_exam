@@ -83,12 +83,11 @@
     function clearFilter() {
         $('#userRole').val("");
         $('#userStatus').val("");
-        $('#start_date').val(new Date().toISOString().split('T')[0]);
-        $('#end_date').val(new Date().toISOString().split('T')[0]);
+        $('#start_date').val('');
+        $('#end_date').val('');
         $('#UserTable').DataTable().ajax.reload();
     }
     $(document).ready(function () {
-        $("#start_date, #end_date").val(new Date().toISOString().split('T')[0]);
         $('#UserTable').DataTable({
             processing: true,
             serverSide: true,
