@@ -135,10 +135,6 @@ final class UserController extends AbstractController
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
-        $this->addFlash(
-            'success',
-            'User display successfully!'
-        );
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
