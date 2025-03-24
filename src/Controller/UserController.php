@@ -41,6 +41,12 @@ final class UserController extends AbstractController
             $query->andWhere('u.created_at BETWEEN :startDate AND :endDate')
                 ->setParameter('startDate', $startDate)
                 ->setParameter('endDate', $endDate);
+        } else if ($request->query->get('start_date')) {
+            $startDate = new \DateTime($request->query->get('start_date'));
+            $query->andWhere('u.created_at >= :startDate')->setParameter('startDate', $startDate);
+        } else if ($request->query->get('end_date')) {
+            $endDate = (new \DateTime($request->query->get('end_date')))->setTime(23, 59, 59);
+            $query->andWhere('u.created_at <= :endDate')->setParameter('endDate', $endDate);
         }
 
         // Get total records count
